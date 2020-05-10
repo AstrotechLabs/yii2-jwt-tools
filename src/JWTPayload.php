@@ -92,10 +92,10 @@ final class JWTPayload
     }
 
     /**
-     * @param string $sub
+     * @param string | int $sub
      * @return JWTPayload
      */
-    public function setSub(string $sub): JWTPayload
+    public function setSub($sub): JWTPayload
     {
         $this->sub = $sub;
         return $this;
