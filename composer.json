@@ -3,6 +3,7 @@
     "type": "yii2-extension",
     "description": "An easy way to configure JWT authentication and validation on Yii Framework 2 Projects",
     "license": "MIT",
+    "minimum-stability": "dev",
     "keywords": [
         "yii2",
         "yii2-framework",
