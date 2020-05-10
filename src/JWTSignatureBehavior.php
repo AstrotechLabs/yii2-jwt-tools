@@ -1,6 +1,6 @@
 <?php
 
-namespace Dersonsena\JTWTools;
+namespace Dersonsena\JWTTools;
 
 use Dersonsena\JWTTools\JWTTools;
 use Yii;
