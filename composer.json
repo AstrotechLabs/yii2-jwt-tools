@@ -1,0 +1,49 @@
+{
+  "name": "dersonsena/yii2-jwt-tools",
+  "type": "library",
+  "description": "",
+  "keywords": [],
+  "scripts": {
+    "php-cs": "phpcs ./src"
+  },
+  "authors": [
+    {
+      "name": "Kilderson Sena",
+      "email": "dersonsena@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dersonsena\\JWTTools\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
+  "require": {
+    "php": ">=7.1",
+    "firebase/php-jwt": "^5.2",
+    "yiisoft/yii2": "^2.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "*",
+    "friendsofphp/php-cs-fixer": "^2.15",
+    "phpunit/phpunit": "^8.4",
+    "codedungeon/phpunit-result-printer": "^0.27.0"
+  },
+  "config": {
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
