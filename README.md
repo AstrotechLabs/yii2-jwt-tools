@@ -1,6 +1,6 @@
 # JWT Tools to Yii Framework 2
 
-![GitHub](https://img.shields.io/github/license/dersonsena/yii2-jwt-tools) ![GitHub repo size](https://img.shields.io/github/repo-size/dersonsena/yii2-jwt-tools) ![Packagist Stars](https://img.shields.io/packagist/stars/dersonsena/yii2-jwt-tools) ![Packagist PHP Version Support (specify version)](https://img.shields.io/packagist/php-v/dersonsena/yii2-jwt-tools/1.0.0)
+![GitHub](https://img.shields.io/github/license/dersonsena/yii2-jwt-tools) ![GitHub repo size](https://img.shields.io/github/repo-size/dersonsena/yii2-jwt-tools) ![Packagist Stars](https://img.shields.io/packagist/stars/dersonsena/yii2-jwt-tools) ![Packagist PHP Version Support (specify version)](https://img.shields.io/packagist/php-v/dersonsena/yii2-jwt-tools/1.0.0) ![Packagist Downloads](https://img.shields.io/packagist/dm/dersonsena/yii2-jwt-tools)
 
 JWT Tools is a toolbox that will help you to configure authentication with [JWT](http://jwt.io/) token. Not only authentication but also signature validation, the famous secret key.
 
@@ -99,6 +99,36 @@ class YourCuteController extends Controller
             'secretKey' => Yii::$app->params['jwt']['secret'],
             'headerName' => 'Auth'
         ];
+    }
+    // ...
+}
+```
+
+In your login action you need to create a JWT Token to send your response. It's very easy create a token, see below:
+
+```php
+class YourCuteController extends Controller
+{
+    // ...
+    public function behaviors()
+    {
+        $behaviors['jwtValidator'] = [
+            'class' => JWTSignatureBehavior::class,
+            'secretKey' => Yii::$app->params['jwt']['secret'],
+            'headerName' => 'Auth'
+        ];
+    }
+
+    public function actionLogin()
+    {
+        // validation stuff
+        // find user
+
+        $token = JWTTools::build(Yii::$app->params['jwt']['secret'])
+            ->withModel($user, ['name', 'email', 'group'])
+            ->getJWT();
+
+        return ['success' => true, 'token' => $token];
     }
     // ...
 }
