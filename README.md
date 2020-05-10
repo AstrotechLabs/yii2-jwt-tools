@@ -1,5 +1,13 @@
 # JWT Tools to Yii Framework 2
 
+![GitHub](https://img.shields.io/github/license/dersonsena/yii2-jwt-tools)
+
+![GitHub repo size](https://img.shields.io/github/repo-size/dersonsena/yii2-jwt-tools)
+
+![Packagist Stars](https://img.shields.io/packagist/stars/dersonsena/yii2-jwt-tools)
+
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/dersonsena/yii2-jwt-tools)
+
 JWT Tools is a toolbox that will help you to configure authentication with [JWT](http://jwt.io/) token. Not only authentication but also signature validation, the famous secret key.
 
 My biggest motivation to do this was because I didn't see a easy way to setup a simple JWT Validation with some helper functions. I always needed copy and past whole the code to a new project.
@@ -76,7 +84,7 @@ class YourCuteController extends Controller
 
 > **NOTE:** in this examples I used `Yii::$app->params['jwt']['secret']` to store my JWT Secret Key, but, I like a lot of the .env files and this information could be stored there
 
-The `JWTSignatureBehavior` will validate the JWT token sent by `Authorization` HTTP Header. If there are some problem with your token this one will throw one of Exceptions below:
+The `JWTSignatureBehavior` will validate the JWT token sent by `Authorization` HTTP Header. If there are some problem with your token this one it will throw one of Exceptions below:
 
 -   [UnauthorizedHttpException](https://www.yiiframework.com/doc/api/2.0/yii-web-unauthorizedhttpexception) with message `Your request was made without an authorization token.` if HTTP Header doesn't exist or token is empty or null.
 
@@ -250,4 +258,4 @@ Please make sure to update tests as appropriate.
 
 ## Licence
 
-This package is released under the [MIT](https://choosealicense.com/licenses/mit/) License.
+This package is released under the [MIT](https://choosealicense.com/licenses/mit/) License. See the bundled [LICENSE](./LICENSE) for details.
