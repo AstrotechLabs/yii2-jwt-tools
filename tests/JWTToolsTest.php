@@ -10,7 +10,7 @@ class JWTToolsTest extends TestCase
     /**
      * @var string
      */
-    const SECRET = 'e469d667b15f48808e7595529cf152a0cfb641bd';
+    private const SECRET = 'e469d667b15f48808e7595529cf152a0cfb641bd';
 
     /**
      * @var JWTTools
@@ -38,17 +38,16 @@ class JWTToolsTest extends TestCase
 
         $this->assertSame('ES256', $jwtTools->getAlgorithm());
         $this->assertSame(1589069866, $jwtTools->getExpiration());
-        $this->assertSame('localhost-iss.com.br', $jwtTools->getIss());
-        $this->assertSame('localhost-aud.com.br', $jwtTools->getAud());
+        $this->assertSame('localhost-iss.com.br', $jwtTools->getPayload()->get('iss'));
+        $this->assertSame('localhost-aud.com.br', $jwtTools->getPayload()->get('aud'));
     }
 
     public function testGenerationTokenWithoutActiveRecord()
     {
         $token = $this->jwtTools->getJWT();
-        $payload = $this->jwtTools->getPayload();
+        $payload = $this->jwtTools->getPayload()->getData();
 
         $this->assertEquals(6, count($payload));
-        $this->assertEquals(322, strlen($token));
 
         $this->assertTrue(array_key_exists('sub', $payload));
         $this->assertTrue(array_key_exists('iss', $payload));
@@ -64,7 +63,10 @@ class JWTToolsTest extends TestCase
 
         $payload = $this->jwtTools
             ->withModel($model, ['name', 'github'])
-            ->getPayload();
+            ->getPayload()
+            ->getData();
+
+        $this->assertEquals(8, count($payload));
 
         $this->assertSame('100', $payload['sub']);
         $this->assertSame('Kilderson Sena', $payload['name']);

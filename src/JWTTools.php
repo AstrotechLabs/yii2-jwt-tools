@@ -23,37 +23,22 @@ final class JWTTools
     /**
      * @var string
      */
-    private $secretKey;
-
-    /**
-     * @var array
-     */
-    private $payload = [];
-
-    /**
-     * @var string
-     */
     private $algorithm = 'HS256';
 
     /**
-     * @var int
-     */
-    private $expiration = 3600;
-
-    /**
      * @var string
      */
-    private $iss;
+    private $secretKey;
 
     /**
-     * @var string
+     * @var mixed int
      */
-    private $aud;
+    private $expiration;
 
     /**
-     * @var string
+     * @var JWTPayload
      */
-    private $sub;
+    private $payload;
 
     private function __construct(string $secretKey, array $options = [])
     {
@@ -64,28 +49,14 @@ final class JWTTools
         }
 
         if (isset($options['expiration'])) {
-            $this->expiration = $options['expiration'];
+            $this->expiration = (int)$options['expiration'];
+
+            $options['exp'] = (new DateTime())
+                ->add(new DateInterval("PT{$this->expiration}S"))
+                ->getTimestamp();
         }
 
-        if (isset($options['iss'])) {
-            $this->iss = $options['iss'];
-        }
-
-        if (isset($options['aud'])) {
-            $this->aud = $options['aud'];
-        }
-
-        $now = ($now ?? new DateTime());
-        $this->sub = md5(uniqid(rand() . "", true));
-
-        $this->payload = [
-            'sub' => $this->sub,
-            'iss' => $this->iss,
-            'aud' => $this->aud,
-            'iat' => $now->getTimestamp(),
-            'exp' => $now->add(new DateInterval("PT{$this->expiration}S"))->getTimestamp(),
-            'jti' => md5(uniqid(rand() . "", true))
-        ];
+        $this->payload = JWTPayload::build($options);
     }
 
     /**
@@ -105,25 +76,9 @@ final class JWTTools
     }
 
     /**
-     * @return string
+     * @return JWTPayload
      */
-    public function getIss(): string
-    {
-        return $this->iss;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAud(): string
-    {
-        return $this->aud;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPayload(): array
+    public function getPayload(): JWTPayload
     {
         return $this->payload;
     }
@@ -140,15 +95,14 @@ final class JWTTools
 
     /**
      * @param  ActiveRecord $model
-     * @param  array        $attributes
+     * @param  array $attributes
      * @return $this
      * @throws ErrorException
      */
     public function withModel(ActiveRecord $model, array $attributes = []): self
     {
         $this->model = $model;
-        $this->sub = $this->model->getPrimaryKey();
-        $this->payload['sub'] = $this->sub;
+        $this->payload->setSub($this->model->getPrimaryKey());
 
         if (empty($attributes)) {
             return $this;
@@ -159,7 +113,7 @@ final class JWTTools
                 throw new ErrorException("Attribute '{$attr}' doesn't exists in model class '" . get_class($this->model) . "' .");
             }
 
-            $this->payload[$attr] = $this->model->getAttribute($attr);
+            $this->payload->addExtraAttribute($attr, $this->model->getAttribute($attr));
         }
 
         return $this;
@@ -171,7 +125,7 @@ final class JWTTools
      */
     public function getJWT(): string
     {
-        return JWT::encode($this->payload, $this->secretKey, $this->algorithm, $this->sub);
+        return JWT::encode($this->payload->getData(), $this->secretKey, $this->algorithm, $this->payload->get('sub'));
     }
 
     /**
