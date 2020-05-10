@@ -1,12 +1,6 @@
 # JWT Tools to Yii Framework 2
 
-![GitHub](https://img.shields.io/github/license/dersonsena/yii2-jwt-tools)
-
-![GitHub repo size](https://img.shields.io/github/repo-size/dersonsena/yii2-jwt-tools)
-
-![Packagist Stars](https://img.shields.io/packagist/stars/dersonsena/yii2-jwt-tools)
-
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/dersonsena/yii2-jwt-tools)
+![GitHub](https://img.shields.io/github/license/dersonsena/yii2-jwt-tools) ![GitHub repo size](https://img.shields.io/github/repo-size/dersonsena/yii2-jwt-tools) ![Packagist Stars](https://img.shields.io/packagist/stars/dersonsena/yii2-jwt-tools) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/dersonsena/yii2-jwt-tools)
 
 JWT Tools is a toolbox that will help you to configure authentication with [JWT](http://jwt.io/) token. Not only authentication but also signature validation, the famous secret key.
 
