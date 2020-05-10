@@ -21,7 +21,7 @@ $ php composer.phar require dersonsena/yii2-jwt-tools
 or add
 
 ```
-"dersonsena/yii2-jwt-tools": "@dev"
+"dersonsena/yii2-jwt-tools": "^1.0"
 ```
 
 to the `require` section of your `composer.json` file.
