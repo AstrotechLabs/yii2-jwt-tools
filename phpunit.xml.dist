@@ -1,0 +1,17 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         bootstrap="tests/bootstrap.php"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
+>
+    <testsuites>
+        <testsuite name="unit">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
