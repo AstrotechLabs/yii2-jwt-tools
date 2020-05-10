@@ -45,7 +45,7 @@ final class JWTPayload
      */
     private $extraAttributes = [];
 
-    private function __construct(array $payloadAttrs)
+    private function __construct(array $payloadAttrs = [])
     {
         $now = new DateTime();
 
@@ -61,17 +61,17 @@ final class JWTPayload
      * @param array $payloadAttrs
      * @return static
      */
-    public static function build(array $payloadAttrs): self
+    public static function build(array $payloadAttrs = []): self
     {
         return new self($payloadAttrs);
     }
 
     /**
      * @param string $attribute
-     * @return string
      * @throws ErrorException
+     * @return string | int
      */
-    public function get(string $attribute): string
+    public function get(string $attribute)
     {
         if (!property_exists($this, $attribute)) {
             throw new ErrorException("Payload attribute '{$attribute}' doesn't exists.");
@@ -121,6 +121,7 @@ final class JWTPayload
      */
     private function generateHash(): string
     {
-        return md5(uniqid(rand() . "", true));
+        $hash = md5(uniqid(rand() . "", true));
+        return substr($hash, 0, 15);
     }
 }
