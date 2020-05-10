@@ -28,7 +28,7 @@ to the `require` section of your `composer.json` file.
 
 ### Configuration File
 
-Let's guarantee somes application settings. Open your `config/web.php` and setup such as:
+Let's guarantee somes application settings are correct. Open your `config/web.php` and setup such as:
 
 ```php
 'components' => [
@@ -61,12 +61,12 @@ class YourCuteController extends Controller
         $behaviors['jwtValidator'] = [
             'class' => JWTSignatureBehavior::class,
             'secretKey' => Yii::$app->params['jwt']['secret'],
-            'except' => ['login'] // except this behavior in login action
+            'except' => ['login'] // it's doesn't run in login action
         ];
 
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::class,
-            'except' => ['login'] // except this behavior in login action
+            'except' => ['login'] // it's doesn't run in login action
         ];
 
         return $behaviors;
@@ -74,17 +74,17 @@ class YourCuteController extends Controller
 }
 ```
 
-> NOTE: I used `Yii::$app->params['jwt']['secret']` to store my JWT Secret Key, but, I like a lot of the .env files and I store this one there.
+> **NOTE:** in this examples I used `Yii::$app->params['jwt']['secret']` to store my JWT Secret Key, but, I like a lot of the .env files and this information could be stored there
 
-The `JWTSignatureBehavior` will validate the JWT token sent by `Authorization` HTTP Header. If there are some problem with your token this one will throw:
+The `JWTSignatureBehavior` will validate the JWT token sent by `Authorization` HTTP Header. If there are some problem with your token this one will throw one of Exceptions below:
 
--   [UnauthorizedHttpException](https://www.yiiframework.com/doc/api/2.0/yii-web-unauthorizedhttpexception) with message `Your request was made without an authorization token.` if token doesn't exists.
+-   [UnauthorizedHttpException](https://www.yiiframework.com/doc/api/2.0/yii-web-unauthorizedhttpexception) with message `Your request was made without an authorization token.` if HTTP Header doesn't exist or token is empty or null.
 
 -   [UnauthorizedHttpException](https://www.yiiframework.com/doc/api/2.0/yii-web-unauthorizedhttpexception) with message `Authentication token is expired.` if token is out of due.
 
--   [UnauthorizedHttpException](https://www.yiiframework.com/doc/api/2.0/yii-web-unauthorizedhttpexception) with message `The token signature is invalid.` if the token signarue is invalid.
+-   [UnauthorizedHttpException](https://www.yiiframework.com/doc/api/2.0/yii-web-unauthorizedhttpexception) with message `The token signature is invalid.` if the token signature is invalid.
 
-If for some reason you need to change the HTTP Header (to be honest I can't see this scenario) you can change this one setting up the `headerName` property, such as below:
+If for some reason you need to change the HTTP Header name (to be honest I can't see this scenario) you can change this one setting up the `headerName` property, such as below:
 
 ```php
 class YourCuteController extends Controller
@@ -153,23 +153,25 @@ If all ok, at this point you're able to authenticate with a valid JWT Token.
 
 ### Generating a token
 
-You can use the [JWTTools](./src/JWTTools.php) methods to make specific things in your project. Such below some examples:
+You can use the [JWTTools](./src/JWTTools.php) methods to make specific things in your project. See some examples below:
 
 ```php
 use Dersonsena\JWTTools\JWTTools;
 
-$secret = 'my-secret-key';
+$jwtTools = JWTTools::build('my-secret-key');
 
-$payload = JWTTools::build($secret)
-    ->getPayload()
-    ->getData();
+$token = $jwtTools->getJWT();
+$payload = $jwtTools->getPayload()->getData();
 
+var_dump($token);
 print_r($payload);
 ```
 
 This code will be return something like:
 
 ```
+string(248) "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImJlMTgzOTQ4YjJmNjkzZSJ9.eyJzdWIiOiJiZTE4Mzk0OGIyZjY5M2UiLCJpc3MiOiIiLCJhdWQiOiIiLCJpYXQiOjE1ODkxMzEzNjIsImV4cCI6MTU4OTEzNDk2MiwianRpIjoiNTM4NTRiMGQ5MzFkMGVkIn0.-JDBkID1oJ7anC_JLg68AJxbKGK-5ubA83zZlDZYYso"
+
 Array
 (
     [sub] => 9c65241853de774
@@ -181,7 +183,9 @@ Array
 )
 ```
 
-### Generating Token with Active Record
+> **NOTE:** the `->getPayload()` returns an instance of the [JWTPayload](./src/JWTPayload.php).
+
+### Generating Token with an Active Record
 
 You can insert the active record attributes in your payload using `withModel()` method, like this:
 
@@ -190,7 +194,7 @@ use Dersonsena\JWTTools\JWTTools;
 
 $user = app\models\User::findOne(2);
 
-$payload = $this->jwtTools
+$payload = JWTTools::build('my-secret-key');
     ->withModel($user, ['id', 'name', 'email'])
     ->getPayload()
     ->getData();
@@ -216,6 +220,21 @@ Array
 ```
 
 The `sub` property is automatically override to `$model->getPrimaryKey()` value, following the [RFC7519](https://tools.ietf.org/html/rfc7519#section-4.1) instructions.
+
+### Changing JWT Properties
+
+You can change the JWT Properties (such as `iss`, `aud` etc) adding an array in second method parameter, as below:
+
+```php
+use Dersonsena\JWTTools\JWTTools;
+
+$payload = JWTTools::build('my-secret-key', [
+    'algorithm' => 'ES256',
+    'expiration' => 1589069866,  //<~~ It will generate the exp property automatically
+    'iss' => 'yourdomain.com',
+    'aud' => 'yourdomain.com',
+]);
+```
 
 ## Authors
 
