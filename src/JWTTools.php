@@ -6,9 +6,9 @@ namespace Dersonsena\JWTTools;
 
 use DateInterval;
 use DateTime;
-use ErrorException;
 use Exception;
 use Firebase\JWT\JWT;
+use InvalidArgumentException;
 use stdClass;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseStringHelper;
@@ -68,6 +68,14 @@ final class JWTTools
     }
 
     /**
+     * @return string
+     */
+    public function getSecretKey(): string
+    {
+        return $this->secretKey;
+    }
+
+    /**
      * @return int
      */
     public function getExpiration(): int
@@ -97,7 +105,7 @@ final class JWTTools
      * @param  ActiveRecord $model
      * @param  array $attributes
      * @return $this
-     * @throws ErrorException
+     * @throws InvalidArgumentException
      */
     public function withModel(ActiveRecord $model, array $attributes = []): self
     {
@@ -110,7 +118,7 @@ final class JWTTools
 
         foreach ($attributes as $attr) {
             if (!$this->model->hasAttribute($attr)) {
-                throw new ErrorException("Attribute '{$attr}' doesn't exists in model class '" . get_class($this->model) . "' .");
+                throw new InvalidArgumentException("Attribute '{$attr}' doesn't exists in model class '" . get_class($this->model) . "' .");
             }
 
             $this->payload->addExtraAttribute($attr, $this->model->getAttribute($attr));
