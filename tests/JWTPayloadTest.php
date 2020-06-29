@@ -44,7 +44,7 @@ class JWTPayloadTest extends TestCase
 
     public function testGetAInvalidAttributeFromPayload()
     {
-        $this->expectException(ErrorException::class);
+        $this->expectException(InvalidArgumentException::class);
         JWTPayload::build()->get('xpto');
     }
 
@@ -111,5 +111,19 @@ class JWTPayloadTest extends TestCase
         $this->assertTrue(isset($data['name']));
         $this->assertTrue(isset($data['github']));
         $this->assertTrue(isset($data['twitter']));
+    }
+
+    public function testIfCreatesPayloadWithExtraParamsInConstructor()
+    {
+        $payload = JWTPayload::build(['extraParams' => [
+            'any_key_1' => 'any_value1',
+            'any_key_2' => 'any_value2',
+        ]])->getData();
+
+        $this->assertSame(8, count($payload));
+        $this->assertTrue(isset($payload['any_key_1']));
+        $this->assertTrue(isset($payload['any_key_2']));
+        $this->assertSame('any_value1', $payload['any_key_1']);
+        $this->assertSame('any_value2', $payload['any_key_2']);
     }
 }
