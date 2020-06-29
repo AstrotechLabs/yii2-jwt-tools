@@ -36,6 +36,7 @@ class JWTToolsTest extends TestCase
             'aud' => 'localhost-aud.com.br',
         ]);
 
+        $this->assertSame(static::SECRET, $jwtTools->getSecretKey());
         $this->assertSame('ES256', $jwtTools->getAlgorithm());
         $this->assertSame(1589069866, $jwtTools->getExpiration());
         $this->assertSame('localhost-iss.com.br', $jwtTools->getPayload()->get('iss'));
