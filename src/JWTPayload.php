@@ -6,7 +6,7 @@ namespace Dersonsena\JWTTools;
 
 use DateInterval;
 use DateTime;
-use ErrorException;
+use InvalidArgumentException;
 
 final class JWTPayload
 {
@@ -55,6 +55,14 @@ final class JWTPayload
         $this->aud = $payloadAttrs['aud'] ?? '';
         $this->sub = $payloadAttrs['sub'] ?? $this->generateHash();
         $this->jti = $payloadAttrs['jti'] ?? $this->generateHash();
+
+        if (!isset($payloadAttrs['extraParams'])) {
+            return;
+        }
+
+        foreach ($payloadAttrs['extraParams'] as $name => $value) {
+            $this->addExtraAttribute($name, $value);
+        }
     }
 
     /**
@@ -68,13 +76,13 @@ final class JWTPayload
 
     /**
      * @param string $attribute
-     * @throws ErrorException
+     * @throws InvalidArgumentException
      * @return string | int
      */
     public function get(string $attribute)
     {
         if (!property_exists($this, $attribute)) {
-            throw new ErrorException("Payload attribute '{$attribute}' doesn't exists.");
+            throw new InvalidArgumentException("Payload attribute '{$attribute}' doesn't exists.");
         }
 
         return $this->{$attribute};
