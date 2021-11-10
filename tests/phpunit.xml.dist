@@ -7,11 +7,10 @@
          processIsolation="false"
          stopOnFailure="false"
          bootstrap="tests/bootstrap.php"
-         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
 >
     <testsuites>
         <testsuite name="unit">
-            <directory>./tests</directory>
+            <directory>./</directory>
         </testsuite>
     </testsuites>
 </phpunit>

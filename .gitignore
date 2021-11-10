@@ -3,7 +3,7 @@ phpunit.phar
 phpunit.phar.asc
 composer.phar
 composer.lock
-phpunit.xml
+tests/phpunit.xml
 .idea
 .phpunit.result.cache
 .php_cs.cache
