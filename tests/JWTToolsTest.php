@@ -97,21 +97,6 @@ class JWTToolsTest extends TestCase
         $this->assertTrue($signatureIsValid);
     }
 
-    public function testIfDateTimeTokenIsExpired()
-    {
-        $this->expectException(ExpiredException::class);
-
-        $token = JWTTools::build(static::SECRET, [
-            'expiration' => 1, // expires in 0.5 second
-        ])->getJWT();
-
-        sleep(1.5);
-
-        $expired = $this->jwtTools->tokenIsExpired($token);
-
-        $this->assertTrue($expired);
-    }
-
     public function testIfDateTimeTokenIsNotExpired()
     {
         $token = JWTTools::build(static::SECRET, [
