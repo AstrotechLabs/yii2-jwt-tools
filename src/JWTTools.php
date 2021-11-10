@@ -7,6 +7,7 @@ namespace Dersonsena\JWTTools;
 use DateInterval;
 use DateTime;
 use Exception;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use InvalidArgumentException;
 use stdClass;
@@ -15,30 +16,11 @@ use yii\helpers\BaseStringHelper;
 
 final class JWTTools
 {
-    /**
-     * @var ActiveRecord
-     */
-    private $model;
-
-    /**
-     * @var string
-     */
-    private $algorithm = 'HS256';
-
-    /**
-     * @var string
-     */
-    private $secretKey;
-
-    /**
-     * @var mixed int
-     */
-    private $expiration;
-
-    /**
-     * @var JWTPayload
-     */
-    private $payload;
+    private ActiveRecord $model;
+    private string $algorithm = 'HS256';
+    private string $secretKey;
+    private int $expiration;
+    private JWTPayload $payload;
 
     private function __construct(string $secretKey, array $options = [])
     {
@@ -133,7 +115,10 @@ final class JWTTools
      */
     public function getJWT(): string
     {
-        return JWT::encode($this->payload->getData(), $this->secretKey, $this->algorithm, $this->payload->get('sub'));
+        try {
+            return JWT::encode($this->payload->getData(), $this->secretKey, $this->algorithm, $this->payload->get('sub'));
+        } catch (ExpiredException $e) {
+        }
     }
 
     /**
@@ -142,7 +127,10 @@ final class JWTTools
      */
     public function decodeToken(string $token): stdClass
     {
-        return JWT::decode($token, $this->secretKey, [$this->algorithm]);
+        try {
+            return JWT::decode($token, $this->secretKey, [$this->algorithm]);
+        } catch (ExpiredException $e) {
+        }
     }
 
     /**
