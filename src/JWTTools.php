@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use stdClass;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseStringHelper;
+use yii\web\UnauthorizedHttpException;
 
 final class JWTTools
 {
@@ -111,10 +112,6 @@ final class JWTTools
         return $this;
     }
 
-    /**
-     * @return string
-     * @throws Exception
-     */
     public function getJWT(): string
     {
         try {
@@ -125,18 +122,16 @@ final class JWTTools
                 $this->payload->get('sub')
             );
         } catch (ExpiredException $e) {
+            throw new UnauthorizedHttpException('Authentication token is expired.');
         }
     }
 
-    /**
-     * @param  string $token
-     * @return stdClass
-     */
     public function decodeToken(string $token): stdClass
     {
         try {
             return JWT::decode($token, $this->secretKey, [$this->algorithm]);
         } catch (ExpiredException $e) {
+            throw new UnauthorizedHttpException('Authentication token is expired.');
         }
     }
 
