@@ -15,6 +15,7 @@
         "yii2-jwt-tools"
     ],
     "scripts": {
+        "test": "phpunit --testdox --do-not-cache-result --configuration tests/phpunit.xml",
         "php-cs": "phpcs ./src"
     },
     "authors": [
@@ -35,15 +36,14 @@
         ]
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=8",
         "firebase/php-jwt": "^5.2",
         "yiisoft/yii2": "^2.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "phpunit/phpunit": "^8.4",
-        "codedungeon/phpunit-result-printer": "^0.27.0"
+        "phpunit/phpunit": "^8.4"
     },
     "config": {
         "process-timeout": 1800,
