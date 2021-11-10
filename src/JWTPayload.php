@@ -10,40 +10,13 @@ use InvalidArgumentException;
 
 final class JWTPayload
 {
-    /**
-     * @var int
-     */
-    private $exp;
-
-    /**
-     * @var string
-     */
-    private $iss;
-
-    /**
-     * @var string
-     */
-    private $aud;
-
-    /**
-     * @var string
-     */
-    private $sub;
-
-    /**
-     * @var int
-     */
-    private $iat;
-
-    /**
-     * @var string
-     */
-    private $jti;
-
-    /**
-     * @var array
-     */
-    private $extraAttributes = [];
+    private int $exp;
+    private string $iss;
+    private string $aud;
+    private string|int $sub;
+    private int $iat;
+    private string $jti;
+    private array $extraAttributes = [];
 
     private function __construct(array $payloadAttrs = [])
     {
