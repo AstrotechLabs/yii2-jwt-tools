@@ -100,7 +100,9 @@ final class JWTTools
 
         foreach ($attributes as $attr) {
             if (!$this->model->hasAttribute($attr)) {
-                throw new InvalidArgumentException("Attribute '{$attr}' doesn't exists in model class '" . get_class($this->model) . "' .");
+                throw new InvalidArgumentException(
+                    "Attribute '{$attr}' doesn't exists in model class '" . get_class($this->model) . "' ."
+                );
             }
 
             $this->payload->addExtraAttribute($attr, $this->model->getAttribute($attr));
@@ -116,7 +118,12 @@ final class JWTTools
     public function getJWT(): string
     {
         try {
-            return JWT::encode($this->payload->getData(), $this->secretKey, $this->algorithm, $this->payload->get('sub'));
+            return JWT::encode(
+                $this->payload->getData(),
+                $this->secretKey,
+                $this->algorithm,
+                $this->payload->get('sub')
+            );
         } catch (ExpiredException $e) {
         }
     }
