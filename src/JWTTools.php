@@ -112,6 +112,14 @@ final class JWTTools
         return $this;
     }
 
+    public function withData($data = []): self
+    {
+        foreach($data as $k => $v){
+            $this->payload->addExtraAttribute($k, $v);
+        }
+        return $this;
+    }
+    
     public function getJWT(): string
     {
         try {
