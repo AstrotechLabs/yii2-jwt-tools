@@ -1,6 +1,6 @@
 <?php
 
-use Dersonsena\JWTTools\JWTTools;
+use AstrotechLabs\JWTTools\JWTTools;
 use Firebase\JWT\ExpiredException;
 use PHPUnit\Framework\TestCase;
 use yii\db\ActiveRecord;

@@ -1,6 +1,6 @@
 <?php
 
-use Dersonsena\JWTTools\JWTPayload;
+use AstrotechLabs\JWTTools\JWTPayload;
 use PHPUnit\Framework\TestCase;
 
 class JWTPayloadTest extends TestCase

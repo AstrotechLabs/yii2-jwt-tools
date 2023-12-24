@@ -1,8 +1,8 @@
 <?php
 
-namespace Dersonsena\JWTTools;
+namespace AstrotechLabs\JWTTools;
 
-use Dersonsena\JWTTools\JWTTools;
+use AstrotechLabs\JWTTools\JWTTools;
 use Yii;
 use yii\base\ActionFilter;
 use yii\web\UnauthorizedHttpException;

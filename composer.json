@@ -1,5 +1,5 @@
 {
-    "name": "dersonsena/yii2-jwt-tools",
+    "name": "astrotechlabs/yii2-jwt-tools",
     "type": "yii2-extension",
     "description": "An easy way to configure JWT authentication and validation on Yii Framework 2 Projects",
     "license": "MIT",
@@ -21,13 +21,14 @@
     "authors": [
         {
             "name": "Kilderson Sena",
-            "email": "dersonsena@gmail.com",
+            "email": "kilderson@astrotech.solutions",
             "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Dersonsena\\JWTTools\\": "src"
+            "DersonSena\\JWTTools\\": "src",
+            "AstrotechLabs\\JWTTools\\": "src"
         }
     },
     "autoload-dev": {

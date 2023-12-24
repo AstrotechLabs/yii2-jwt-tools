@@ -188,7 +188,7 @@ If all ok, at this point you're able to authenticate with a valid JWT Token.
 You can use the [JWTTools](./src/JWTTools.php) methods to make specific things in your project. See some examples below:
 
 ```php
-use Dersonsena\JWTTools\JWTTools;
+use AstrotechLabs\JWTTools\JWTTools;
 
 $jwtTools = JWTTools::build('my-secret-key');
 
@@ -222,7 +222,7 @@ Array
 You can insert the active record attributes in your payload using `withModel()` method, like this:
 
 ```php
-use Dersonsena\JWTTools\JWTTools;
+use AstrotechLabs\JWTTools\JWTTools;
 
 $user = app\models\User::findOne(2);
 
@@ -258,7 +258,7 @@ The `sub` property is automatically override to `$model->getPrimaryKey()` value,
 You can change the JWT Properties (such as `iss`, `aud` etc) adding an array in second method parameter, as below:
 
 ```php
-use Dersonsena\JWTTools\JWTTools;
+use AstrotechLabs\JWTTools\JWTTools;
 
 $payload = JWTTools::build('my-secret-key', [
     'algorithm' => 'ES256',

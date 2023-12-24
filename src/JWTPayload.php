@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dersonsena\JWTTools;
+namespace AstrotechLabs\JWTTools;
 
 use DateInterval;
 use DateTime;
