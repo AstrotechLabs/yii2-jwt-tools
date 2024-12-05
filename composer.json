@@ -38,7 +38,7 @@
     },
     "require": {
         "php": ">=8",
-        "firebase/php-jwt": "^5.2",
+        "firebase/php-jwt": "^6.1",
         "yiisoft/yii2": "^2.0"
     },
     "require-dev": {
