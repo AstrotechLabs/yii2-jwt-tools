@@ -14,6 +14,7 @@ use stdClass;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseStringHelper;
 use yii\web\UnauthorizedHttpException;
+use Firebase\JWT\Key;
 
 final class JWTTools
 {
@@ -137,7 +138,7 @@ final class JWTTools
     public function decodeToken(string $token): stdClass
     {
         try {
-            return JWT::decode($token, $this->secretKey, [$this->algorithm]);
+            return JWT::decode($token, new Key($this->secretKey, $this->algorithm));
         } catch (\Throwable $e) {
             throw new UnauthorizedHttpException($e->getMessage());
         }
